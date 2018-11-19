@@ -1,0 +1,104 @@
+{extend name="public:base" /}
+{block name="body"}
+<div class="row">
+    <div class="col-md-8">
+        <div class="border-bottom pt-3 mb-3">
+            <h2>{$art.id|getCateName}</h2>
+        </div>
+        <div class="artcon">
+            <div>
+                <h4>{$art.title}</h4>
+                <p>
+                    发布者：{$art.user_id|getUserName} &nbsp;&nbsp;&nbsp;&nbsp;
+                    发布时间：{$art.create_time} &nbsp;&nbsp;&nbsp;&nbsp;
+                    阅读量：{$art.pv} &nbsp;&nbsp;&nbsp;&nbsp;
+                </p>
+                <p>{$art.content|raw}</p>
+                <hr>
+                <button class="btn btn-default" type="button" id="fav" user_id="{$art.user_id}" article_id="{$art.id}" session_id="{$Think.session.user_id}">收藏</button>
+                <button class="btn btn-warning" type="button" id="ok" user_id="{$art.user_id}" article_id="{$art.id}" session_id="{$Think.session.user_id}">点赞</button>
+            </div>
+            <script>
+                $(function () {
+                    // 收藏功能
+                    $('#fav').on('click', function () {
+                        // 获取当前用户的id和文章id
+                        var userId = $(this).attr('user_id');
+                        var artId = $(this).attr('article_id');
+                        var sessionId = $(this).attr('session_id');
+                        if (userId && artId) {
+                            $.ajax({
+                                type: 'get',
+                                url: "{:url('index/fav')}",
+                                data: {
+                                    user_id: userId,
+                                    article_id: artId,
+                                    session_id: sessionId,
+                                    time: new Date().getTime()
+                                },
+                                dataType: 'json',
+                                success: function (data) {
+                                    switch (data.status) {
+                                        case 1:
+                                            $('#fav').attr('class','btn btn-success');
+                                            $('#fav').text(data.message);
+                                            break;
+                                        case 0:
+                                            $('#fav').attr('class','btn btn-default');
+                                            $('#fav').text(data.message);
+                                            break;
+                                        case -1:
+                                            alert(data.message);
+                                            break;
+                                        case -2:
+                                            alert(data.message);
+                                            window.location.href="{:url('index/user/login')}";
+                                    }
+                                }
+                            })
+                        }
+                    });
+
+                    // 点赞功能
+                    $('#ok').on('click',function(){
+                        // 获取当前用户的id和文章id
+                        var userId = $(this).attr('user_id');
+                        var artId = $(this).attr('article_id');
+                        var sessionId = $(this).attr('session_id');
+                        if (userId && artId) {
+                            $.ajax({
+                                type: 'get',
+                                url: "{:url('index/ok')}",
+                                data: {
+                                    user_id: userId,
+                                    article_id: artId,
+                                    session_id: sessionId,
+                                    time: new Date().getTime()
+                                },
+                                dataType: 'json',
+                                success: function (data) {
+                                    switch (data.status) {
+                                        case 1:
+                                            $('#ok').attr('class','btn btn-success');
+                                            $('#ok').text(data.message);
+                                            break;
+                                        case 0:
+                                            $('#ok').attr('class','btn btn-default');
+                                            $('#ok').text(data.message);
+                                            break;
+                                        case -1:
+                                            alert(data.message);
+                                            break;
+                                        case -2:
+                                            alert(data.message);
+                                            window.location.href="{:url('index/user/login')}";
+                                    }
+                                }
+                            })
+                        }
+                    });
+                });
+            </script>
+        </div>
+        <div style="clear:both;"></div>
+        {/block}

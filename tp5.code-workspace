@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "F:\\htdocs\\mobanw.cn"
+		},
+		{
+			"path": "F:\\htdocs\\laravel-admin.org"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"editor.quickSuggestionsDelay": 300
+	}
+}

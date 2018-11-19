@@ -1,0 +1,54 @@
+<!-- <div class="row">
+  <div class="col-md-12"> -->
+    <!-- 导航 -->
+    <nav class="navbar navbar-dark bg-dark navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="{:url('index/index')}">{$siteName|default="社区问答"}</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item {empty name='$Request.param.cate_id'}active{/empty}">
+            <a class="nav-link" href="{:url('index/index')}">首页</a>
+          </li>
+          {volist name="cateList" id="cate"}
+          <li class="nav-item {eq name='$cate.id' value='$Request.param.cate_id'}active{/eq}">
+            <a class="nav-link" href="{:url('index',['cate_id'=>$cate.id])}">{$cate.name}</a>
+          </li>
+          {/volist}
+        </ul>
+        <ul class="navbar-nav ml-auto">
+          <form class="form-inline my-2 my-lg-0" action="{:url('index/index')}" method="GET">
+            <input class="form-control mr-sm-2" name="keywords" type="search" placeholder="请输入关键字" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>
+          </form>
+          {if $Think.session.user_id}
+          <li class="nav-item">
+            <a class="nav-link" href="#">{$Think.session.user_name}</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              操作
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="{:url('index/insert')}">发布文章</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="{:url('user/logout')}">退出登录</a>
+            </div>
+          </li>
+          {else/}
+          <li class="nav-item">
+            <a class="nav-link" href="{:url('user/login')}">登录</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{:url('user/register')}">注册</a>
+          </li>
+          {/if}
+        </ul>
+      </div>
+    </nav>
+<!--   </div>
+</div> -->
