@@ -4,10 +4,10 @@
  */
 namespace app\admin\common\model;
 use think\Model;
-class User extends Model
+class Cate extends Model
 {
     protected $pk = 'id'; // 默认主键
-    protected $table = 'zh_user'; // 默认数据表
+    protected $table = 'zh_article_category'; // 默认数据表
     protected $autoWriteTimestamp = true; //自动时间戳
     protected $createTime = 'create_time';
     protected $updateTime = 'update_time';

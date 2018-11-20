@@ -19,7 +19,7 @@ class Base extends Controller
      */
     public function isLogin()
     {
-        if(!Session::has('admin_id')){
+        if(!Session::has('user_id')){
             $this->error("请先登录！","admin/user/login");
         }
     }

@@ -7,6 +7,6 @@ class Index extends Base
     {
         // 用户是否登录
         $this->isLogin();
-        return $this->fetch();
+        return $this->redirect('user/userList');
     }
 }

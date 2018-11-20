@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>{$title|default="页面标题"}</title>
+        {css href="/static/css/bootstrap.min.css"}
+        {css href="/static/css/open-iconic-bootstrap.min.css"}
+        {js href="/static/js/jquery.js"}
+        {js href="/static/js/bootstrap.bundle.min.js"}
+        <style>
+      .artcon {
+        width: 100%;
+      }
+      .artcon img {
+        max-width: 100%;
+        height: auto;
+      }
+    </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    {include file="public/nav"/}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    {include file="public/left"/}
+                </div>
+                <div class="col-md-10">
+                    {__CONTENT__}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
