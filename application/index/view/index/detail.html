@@ -18,6 +18,30 @@
                 <button class="btn btn-default" type="button" id="fav" user_id="{$art.user_id}" article_id="{$art.id}" session_id="{$Think.session.user_id}">收藏</button>
                 <button class="btn btn-warning" type="button" id="ok" user_id="{$art.user_id}" article_id="{$art.id}" session_id="{$Think.session.user_id}">点赞</button>
             </div>
+            {//添加表单评论功能}
+            
+            <form action="" class="" id="comment">
+                <input type="hidden" name="art_id" value="{$art.id}">
+                <input type="hidden" name="user_id" value="{$art.user_id}">
+                <div class="form-group">
+                  <h4>发表评论</h4>
+                  <textarea class="form-control" name="content" id="" cols="30" rows="5"></textarea>
+                  <button type="button" class="btn btn-info" id="submit">提交</button>
+                </div>
+            </form>
+            <p class="text-success" id="res">发表成功</p>
+            {//Ajax提交}
+            <script>
+                $('#submit').on('click',function(){
+                    $.get("{:url('insertComment')}",$('#comment').serialize(),function(data){
+                        if(data.status == 1){
+                            alert(1);
+                        }else{
+                            alert(0);
+                        }
+                    });
+                });
+            </script>
             <script>
                 $(function () {
                     // 收藏功能

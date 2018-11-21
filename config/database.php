@@ -15,7 +15,7 @@ return [
     // 服务器地址
     'hostname'        => env('DB_HOSTNAME', '127.0.0.1'),
     // 数据库名
-    'database'        => env('DB_DATABASE', 'tp5.cn'),
+    'database'        => env('DB_DATABASE', ''),
     // 用户名
     'username'        => env('DB_USERNAME', 'root'),
     // 密码

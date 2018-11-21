@@ -11,6 +11,10 @@ class User extends Base
     // 注册页面
     public function register()
     {
+        //检测注册是否关闭
+        $this->is_reg();
+        //检测是否已经登录
+        $this->logined();
         $this->assign('title', '用户注册');
         return $this->fetch();
     }

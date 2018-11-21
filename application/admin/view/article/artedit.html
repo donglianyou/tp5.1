@@ -1,8 +1,7 @@
 {layout name="public/layout" /}
 <h4 class="text-center text-danger">编辑文章</h4>
-<form method="POST" action="{:url('article/doEdit')}"
-    enctype="multipart/form-data">
-    <input type="hidden" name="user_id" value="{$Think.session.user_id}">
+<form method="POST" action="{:url('article/doEdit')}" enctype="multipart/form-data">
+    <input type="hidden" name="id" value="{$artInfo.id}">
     <div class="form-group row">
         <label for="title" class="col-sm-2 col-form-label">标题：</label>
         <div class="col-sm-10">
@@ -13,8 +12,8 @@
     <div class="form-group row">
         <label for="sort" class="col-sm-2 col-form-label">栏目：</label>
         <div class="col-sm-10">
-            <select name="cate_id" id="cate_id">
-                {volist name="cateList" value="cate"}
+            <select name="cate_id" class="form-control" id="cate_id">
+                {volist name="cateList" id="cate"}
                 <option value="{$cate.id}">{$cate.name}</option>
                 {/volist}
             </select>
@@ -27,7 +26,7 @@
                 id="content" placeholder="文章内容">{$artInfo.content}</textarea>
         </div>
     </div>
-    <img src="{$artInfo.title_img}" class="rounded mx-auto d-block">
+    <img src="/uploads/{$artInfo.title_img}" width="200px" class="rounded d-block">
     <div class="form-group row">
         <label for="mobile" class="col-sm-2 col-form-label">标题图片：</label>
         <div class="col-sm-10">

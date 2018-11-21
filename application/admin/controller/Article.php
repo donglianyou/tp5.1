@@ -3,6 +3,7 @@ namespace app\admin\controller;
 
 use app\admin\common\controller\Base;
 use app\admin\common\model\Article as ArtModel;
+use app\admin\common\model\Cate;
 use think\facade\Request;
 use think\facade\Session;
 
@@ -43,8 +44,13 @@ class Article extends Base
         $artid = Request::param('id');
         // 2·根据主键查询要更新的分类信息
         $artInfo = ArtModel::where('id', $artid)->find();
-        // 3·设置模板变量
+
+        // 3·获取栏目信息
+        $cateList = Cate::all();
+
+        // 4·设置模板变量
         $this->assign('title', '编辑文章');
+        $this->assign('cateList', $cateList);
         $this->assign('artInfo', $artInfo);
         return $this->fetch('artedit');
     }
@@ -56,26 +62,34 @@ class Article extends Base
 
         $id = $data['id'];  //取出更新主键
 
-        //2.删除主键字段,封装出要更新的字段数组
-        unset($data['id']);
-
-        //3.执行更新操作
-        if (CateModel::where('id', $id)->data($data)->update()) {
-            return $this->success('更新成功', 'cateList');
+        // 2·获取上传图片的信息
+        $file = Request::file('title_img');
+        // 文件信息验证成功后再上传到服务器指定目录,以public为起始目录
+        $info = $file->validate([
+            'size'=>1000000,
+            'ext'=>'jpeg,jpg,png,gif',
+        ])->move('uploads/');
+        if ($info) {
+            $data['title_img'] = $info->getSaveName();
+        } else {
+            $this->error($file->getError());
         }
-
-        //3. 更新失败提示
-        $this->error('没有更新或更新失败');
+        // 将数据写入到数据表中
+        if (ArtModel::update($data)) {
+            $this->success('文章更新成功', 'artList');
+        } else {
+            $this->error('文章更新失败');
+        }
     }
     //执行栏目的删除操作
 	public function doDelete()
 	{
 		//1.获取要删除的数据主键
-		$id = Request::param('id');
+		$artId = Request::param('id');
 
 		//2.执行删除操作
-		if(CateModel::where('id',$id)->delete()){
-			return $this->success('删除成功','cateList');
+		if(ArtModel::destroy($artId)){
+			return $this->success('删除成功','artList');
 		}
 
 		//3. 删除失败提示

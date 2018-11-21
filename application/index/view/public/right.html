@@ -4,11 +4,9 @@
     <div class="border-bottom pt-3 mb-3">
         <h2>热门排行</h2>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item active">Cras justo odio</li>
-        <li class="list-group-item">Dapibus ac facilisis in</li>
-        <li class="list-group-item">Morbi leo risus</li>
-        <li class="list-group-item">Porta ac consectetur ac</li>
-        <li class="list-group-item">Vestibulum at eros</li>
+    <ul class="list-group hotArt">
+        {volist name="hotArtList" id="hot"}
+        <li class="list-group-item {eq name='$i' value='1'}active{/eq}"><a href="{:url('index/detail',['id'=>$hot.id])}">{:mb_substr($hot.title,0,15)} <span class="badge badge-info right">{$hot.pv}</span></a></li>
+        {/volist}
     </ul>
 </div>

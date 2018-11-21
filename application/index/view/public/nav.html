@@ -15,7 +15,7 @@
           </li>
           {volist name="cateList" id="cate"}
           <li class="nav-item {eq name='$cate.id' value='$Request.param.cate_id'}active{/eq}">
-            <a class="nav-link" href="{:url('index',['cate_id'=>$cate.id])}">{$cate.name}</a>
+            <a class="nav-link" href="{:url('/index/index/index',['cate_id'=>$cate.id])}">{$cate.name}</a>
           </li>
           {/volist}
         </ul>

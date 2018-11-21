@@ -4,6 +4,7 @@ namespace app\index\controller;
 use app\common\controller\Base; //导入公共控制器
 use app\common\model\ArtCate;
 use app\common\model\Article;
+use app\common\model\Comment;
 use think\facade\Request;
 use think\Db;
 
@@ -157,6 +158,19 @@ class Index extends Base
         } else {
             Db::table('zh_user_like')->where($map)->delete();
             return ['status'=>0,'message'=>'不喜欢'];
+        }
+    }
+    public function insertComment(){
+        if(Request::isAjax()){
+            // 1·获取到评论内容
+            $data = Request::param();
+            // halt($data);
+            // 2·将用户留言存到表中
+            if(Comment::create($data,true)){
+                return ['status'=>1,'message'=>'评论发表成功'];
+            }
+            // 失败
+            return ['status'=>0,'message'=>'评论发表失败'];
         }
     }
 }
