@@ -13,9 +13,9 @@ Route::get('think', function () {
     return 'hello,ThinkPHP5!';
 });
 
-Route::get('hello/:name', 'index/hello');
-
-Route::rule('new/:id', 'index/News/read');
+Route::get('shop/:name', 'shop');
+// 第一个参数是定义路由规则
+Route::resource('shop', 'shop');
 
 return [
 
