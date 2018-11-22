@@ -1,0 +1,7 @@
+{volist name="commentList" id="comment" empty="没有评论"}
+<div>
+    <p>{$comment.user_id|getUserName}&nbsp;&nbsp;&nbsp;{$comment.create_time}</p>
+    <div style="min-height:30px; color:red;">{$comment.content}</div>
+    <hr>
+</div>
+{/volist}

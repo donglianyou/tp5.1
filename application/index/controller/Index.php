@@ -6,6 +6,7 @@ use app\common\model\ArtCate;
 use app\common\model\Article;
 use app\common\model\Comment;
 use think\facade\Request;
+use think\facade\Session;
 use think\Db;
 
 class Index extends Base
@@ -100,6 +101,11 @@ class Index extends Base
         $art = Article::get(function ($query) use ($artId) {
             $query->where('id', $artId)->setInc('pv');
         });
+        // 添加评论
+        $this->assign('commentList',Comment::all(function($query) use ($artId){
+            $query->where('status',1)->where('art_id',$artId)->order('create_time','desc');
+        }));
+
         if (!is_null($art)) {
             $this->assign('art', $art);
             $this->assign('title', '详情页');
@@ -161,10 +167,14 @@ class Index extends Base
         }
     }
     public function insertComment(){
+        
         if(Request::isAjax()){
             // 1·获取到评论内容
             $data = Request::param();
-            // halt($data);
+            // 未登录
+            if(!Session::has('user_id')){
+                return ['status'=>-1,'message'=>'请先登录'];
+            }
             // 2·将用户留言存到表中
             if(Comment::create($data,true)){
                 return ['status'=>1,'message'=>'评论发表成功'];
@@ -172,5 +182,21 @@ class Index extends Base
             // 失败
             return ['status'=>0,'message'=>'评论发表失败'];
         }
+    }
+    public function showComment(){
+        $artId = Request::param('id');
+        $art = Article::get(function ($query) use ($artId) {
+            $query->where('id', $artId)->setInc('pv');
+        });
+        // 添加评论
+        $this->assign('commentList',Comment::all(function($query) use ($artId){
+            $query->where('status',1)->where('art_id',$artId)->order('create_time','desc');
+        }));
+
+        if (!is_null($art)) {
+            $this->assign('art', $art);
+            return $this->fetch('comment');
+        }
+        
     }
 }

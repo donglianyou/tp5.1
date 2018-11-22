@@ -15,31 +15,52 @@
                 </p>
                 <p>{$art.content|raw}</p>
                 <hr>
-                <button class="btn btn-default" type="button" id="fav" user_id="{$art.user_id}" article_id="{$art.id}" session_id="{$Think.session.user_id}">收藏</button>
-                <button class="btn btn-warning" type="button" id="ok" user_id="{$art.user_id}" article_id="{$art.id}" session_id="{$Think.session.user_id}">点赞</button>
+                <button class="btn btn-default" type="button" id="fav"
+                    user_id="{$art.user_id}" article_id="{$art.id}"
+                    session_id="{$Think.session.user_id}">收藏</button>
+                <button class="btn btn-warning" type="button" id="ok"
+                    user_id="{$art.user_id}" article_id="{$art.id}"
+                    session_id="{$Think.session.user_id}">点赞</button>
             </div>
             {//添加表单评论功能}
-            
-            <form action="" class="" id="comment">
+            <form class="" id="comment">
                 <input type="hidden" name="art_id" value="{$art.id}">
                 <input type="hidden" name="user_id" value="{$art.user_id}">
                 <div class="form-group">
-                  <h4>发表评论</h4>
-                  <textarea class="form-control" name="content" id="" cols="30" rows="5"></textarea>
-                  <button type="button" class="btn btn-info" id="submit">提交</button>
+                    <h4>发表评论</h4>
+                    <textarea class="form-control" name="content" id="pubcom"
+                        cols="30" rows="5"></textarea>
+                    <button type="button" class="btn btn-info" id="submit">提交</button>
                 </div>
             </form>
-            <p class="text-success" id="res">发表成功</p>
+            <p id="res"></p>
+            <div id="showComment">{volist name="commentList" id="comment"
+                empty="没有评论"}
+                <div>
+                    <p>{$comment.user_id|getUserName}&nbsp;&nbsp;&nbsp;{$comment.create_time}</p>
+                    <div style="min-height:30px; color:red;">{$comment.content}</div>
+                    <hr>
+                </div>
+                {/volist}</div>
             {//Ajax提交}
             <script>
                 $('#submit').on('click',function(){
+                    var text = $('#pubcom').val();
+                    var counter = text.length;
+                    if(text=='' || counter<=5){
+                        $('#res').html("<span class='text-danger'>请输入五字以上文字！</span>");
+                        return;
+                    }
                     $.get("{:url('insertComment')}",$('#comment').serialize(),function(data){
-                        if(data.status == 1){
-                            alert(1);
+                        if(data.status == -1){
+                            $('#res').html("<span class='text-danger'>"+data.message+"</span>");
+                        }else if(data.status == 1){
+                            $('#res').html("<span class='text-success'>"+data.message+"</span>");
                         }else{
-                            alert(0);
+                            $('#res').html("<span class='text-warning'>"+data.message+"</span>");
                         }
                     });
+                    
                 });
             </script>
             <script>
